@@ -12,7 +12,7 @@ void print_solution(struct Solution * solution){
 }
 
 int * get_solution_pids(struct Solution * solution){
-    int * pids = malloc(64 * sizeof(int));
+    int * pids = malloc(SIZE * SIZE * SIZE * sizeof(int));
     int piece = 0;
     for (int i = 0; i < SIZE; ++i)
         for (int j = 0; j < SIZE; j++)

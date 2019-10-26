@@ -26,7 +26,7 @@ int * get_solution_pids(struct Solution * solution){
 int main(){
     int nb_pieces = parse_nb_piece("../pieces.txt");
     struct Piece ** input_pieces = read_pieces("../pieces.txt");
-    struct Solution * solution = find_solution(input_pieces, nb_pieces);
+    struct Solution * solution = find_solution(input_pieces, nb_pieces, SIZE);
     
     //print_solution(solution);
     int * sol_pids = get_solution_pids(solution);

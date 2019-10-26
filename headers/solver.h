@@ -26,7 +26,7 @@ struct Combinations * find_all_combinations(struct Combinations *comb, struct Pi
 int * get_comb_indices(unsigned long long int global_index, struct Combinations ** combs, int nb_pieces);
 unsigned long long int get_global_index(int * indices, struct Combinations ** combs, int nb_pieces);
 unsigned long long find_next_index(int * indices, struct Combinations ** combs, int nb_pieces, int current_piece_number);
-struct Solution * find_solution(struct Piece ** input_pieces, int nb_pieces);
+struct Solution * find_solution(struct Piece ** input_pieces, int nb_pieces, int cube_size);
 void free_all_combinations(struct Combinations ** combs, int nb_pieces);
 void free_solution(struct Solution * solution);
 

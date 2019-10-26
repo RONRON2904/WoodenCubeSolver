@@ -184,12 +184,12 @@ unsigned long long find_next_index(int * indices, struct Combinations ** combs, 
     return get_global_index(ind_tmp, combs, nb_pieces);
 }
 
-struct Solution * find_solution(struct Piece ** input_pieces, int nb_pieces){
+struct Solution * find_solution(struct Piece ** input_pieces, int nb_pieces, int cube_size){
     struct Combinations ** combs = malloc(nb_pieces * sizeof(struct Combinations *));
     struct Cube *cube;
-    cube = init_cube(cube, 4);
+    cube = init_cube(cube, cube_size);
 
-    int nb_box_left = 64;
+    int nb_box_left = cube->nb_boxes_left;
 
     unsigned long long int max_iter = 1;
     unsigned long long nb_iter = 0;

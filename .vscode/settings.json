@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "cube_tests.h": "c",
+        "solver.h": "c"
+    },
+    "markdown.preview.fontSize": 12,
+    "editor.suggestFontSize": 4,
+    "python.pythonPath": "/Users/maxencer2d/anaconda3/bin/python"
+}

@@ -22,7 +22,7 @@ struct Cube * init_cube(struct Cube *cube, int size){
 }
 
 int is_cube_full(struct Cube *c){
-    return c->nb_boxes_left == 1;       // Normally cube is full when  c->nb_boxes_left == 0 but I have lost one element from a piece    
+    return c->nb_boxes_left == 0;       // Normally cube is full when  c->nb_boxes_left == 0 but I have lost one element from a piece    
 }
 
 int is_place_occupied(struct Cube *c, int * coords, int nb_elem){

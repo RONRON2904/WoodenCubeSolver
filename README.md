@@ -9,12 +9,16 @@ In the pieces.txt input file, just have to enter a piece by row
 when it's done:  
 
 #### COMPILE COMMAND LINE:  
+In the src/ directory:
 gcc file_handler.c piece.c cube.c solver.c main.c -o sol
 
 #### EXECUTION : 
+In the src/ directory:
 ./sol
 
 #### SOLUTION:   
+pip install -r requirements.txt
+In the src/ directory:
 python cube_visu.py: shows step by step how to reproduce the solution (by closing the matplotlib figure at each step).  
 (In my piece.txt case, I have one element missing from one piece so it is normal to not see the cube fully fulled).  
 

@@ -10,7 +10,9 @@ when it's done:
 
 #### COMPILE COMMAND LINE:  
 gcc file_handler.c piece.c cube.c solver.c main.c -o sol
-EXECUTION : ./sol
+
+#### EXECUTION : 
+./sol
 
 #### SOLUTION:   
 python cube_visu.py: shows step by step how to reproduce the solution (by closing the matplotlib figure at each step).  

@@ -20,6 +20,5 @@ In the src/ directory:
 pip install -r requirements.txt
 In the src/ directory:
 python cube_visu.py: shows step by step how to reproduce the solution (by closing the matplotlib figure at each step).  
-(In my piece.txt case, I have one element missing from one piece so it is normal to not see the cube fully fulled).  
 
 outputs_img shows the step by step solution given by the python script

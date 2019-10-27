@@ -17,7 +17,7 @@ In the src/ directory:
 ./sol
 
 #### SOLUTION:   
-pip install -r requirements.txt. 
+pip install -r requirements.txt.   
 In the src/ directory:  
 python cube_visu.py: shows step by step how to reproduce the solution (by closing the matplotlib figure at each step).  
 

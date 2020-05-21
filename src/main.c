@@ -4,32 +4,34 @@
 #include "../headers/solver.h"
 #include "../headers/file_handler.h"
 
-#define SIZE 4
-
 void print_solution(struct Solution * solution){
     printf("Solution found in %d iterations\n", solution->nb_comb_tried);
     print_cube(solution->filled_cube);
 }
 
-int * get_solution_pids(struct Solution * solution){
-    int * pids = malloc(SIZE * SIZE * SIZE * sizeof(int));
+int * get_solution_pids(struct Solution * solution, int cube_size){
+    int * pids = malloc(cube_size * cube_size * cube_size * sizeof(int));
     int piece = 0;
-    for (int i = 0; i < SIZE; ++i)
-        for (int j = 0; j < SIZE; j++)
-            for (int k = 0; k < SIZE; k++){
-                pids[piece] = solution->filled_cube->boxes[(SIZE * i) + (j * SIZE * SIZE) + k].id_piece;
+    for (int i = 0; i < cube_size; ++i)
+        for (int j = 0; j < cube_size; j++)
+            for (int k = 0; k < cube_size; k++){
+                pids[piece] = solution->filled_cube->boxes[(cube_size * i) + (j * cube_size * cube_size) + k].id_piece;
                 piece++;
             }
     return pids;
 }
 
 int main(){
+    int cube_size = 0;
+    printf("What is the cube size (SIZExSIZExSIZE) ?\n");
+    scanf("%d", &cube_size);
+
     int nb_pieces = parse_nb_piece("../pieces.txt");
     struct Piece ** input_pieces = read_pieces("../pieces.txt");
-    struct Solution * solution = find_solution(input_pieces, nb_pieces, SIZE);
+    struct Solution * solution = find_solution(input_pieces, nb_pieces, cube_size);
     
     //print_solution(solution);
-    int * sol_pids = get_solution_pids(solution);
+    int * sol_pids = get_solution_pids(solution, cube_size);
     write_solution("../solution.txt", sol_pids);
 
     for (int i = 0; i < nb_pieces; ++i)

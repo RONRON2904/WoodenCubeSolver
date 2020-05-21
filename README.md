@@ -27,4 +27,4 @@ outputs_img shows the step by step solution given by the python script
 This code will work on 99%+ any real wooden cube we can find.
 BUT:
 * This code is actually limited by the number of combinations by unsigned long long int limit: 18,446,744,073,709,551,615
-* In case of a wooden cube with lot more pieces (~=lot more combinations) it could end up with errors.
+* In case of a wooden cube with lot more pieces (~=lot more combinations) it will end up with errors.

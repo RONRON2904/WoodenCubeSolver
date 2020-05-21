@@ -5,7 +5,6 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D  
 import random
 
-SIZE = 4
 
 def get_piece_coords(solution_df, p_id):
     piece = solution_df[solution_df['p_id'] == p_id]
@@ -35,6 +34,8 @@ if __name__ == '__main__':
     sol_df = pd.read_csv('../solution.txt', sep=' ')
     sol = sol_df[sol_df['p_id'] >= 0]
     
+    SIZE = len(sol.x.unique())
+
     p_ids = sol.p_id.unique().tolist()
     pieces = [get_piece(get_piece_coords(sol, p_id)) for p_id in p_ids]
 

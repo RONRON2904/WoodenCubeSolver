@@ -35,94 +35,94 @@ void print_piece(struct Piece *p){
         printf("Elem %d: (i, j, k) = (%d, %d, %d)\n", i + 1, p->coords[3 * i], p->coords[3 * i + 1], p->coords[3 * i + 2]);
 }
 
-int is_piece_beyond_limit(struct Piece *p){
+int is_piece_beyond_limit(struct Piece *p, int dim_limit){
     for (int i = 0; i < 3 * p->nb_elementary_cube; i++)
-        if (p->coords[i] > DIM_LIMIT | p->coords[i] < 0)
+        if (p->coords[i] > dim_limit | p->coords[i] < 0)
             return 1;
     return 0;
 }
 
-int shift_x_axis(struct Piece *p, int towards){
+int shift_x_axis(struct Piece *p, int towards, int dim_limit){
     for(int i = 0; i < p->nb_elementary_cube; ++i){
         if (towards == 1)
             p->coords[3*i]++;
         else
             p->coords[3*i]--;
     }
-    return !is_piece_beyond_limit(p);
+    return !is_piece_beyond_limit(p, dim_limit);
 }
 
-int shift_y_axis(struct Piece *p, int towards){
+int shift_y_axis(struct Piece *p, int towards, int dim_limit){
     for(int i = 0; i < p->nb_elementary_cube; ++i){
         if (towards == 1)
             p->coords[3*i + 1]++;
         else
             p->coords[3*i + 1]--;
     }
-    return !is_piece_beyond_limit(p);
+    return !is_piece_beyond_limit(p, dim_limit);
 }
-int shift_z_axis(struct Piece *p, int towards){
+int shift_z_axis(struct Piece *p, int towards, int dim_limit){
     for(int i = 0; i < p->nb_elementary_cube; ++i){
         if (towards == 1)
             p->coords[3*i + 2]++;
         else
             p->coords[3*i + 2]--;
     }
-    return !is_piece_beyond_limit(p);
+    return !is_piece_beyond_limit(p, dim_limit);
 }
 
-int rotation_x_axis(struct Piece *p){
+int rotation_x_axis(struct Piece *p, int dim_limit){
     for(int i = 0; i < p->nb_elementary_cube; ++i){
         int y_tmp = p->coords[3 * i + 1];
         p->coords[3 * i + 1] = - p->coords[3 * i + 2];
         p->coords[3 * i + 2] = y_tmp;
     }
-    return !is_piece_beyond_limit(p);
+    return !is_piece_beyond_limit(p, dim_limit);
 }
 
-int rotation_y_axis(struct Piece *p){
+int rotation_y_axis(struct Piece *p, int dim_limit){
     for(int i = 0; i < p->nb_elementary_cube; ++i){
         int x_tmp = p->coords[3 * i];
         p->coords[3 * i] =  p->coords[3 * i + 2];
         p->coords[3 * i + 2] = - x_tmp;
     }
-    return !is_piece_beyond_limit(p);
+    return !is_piece_beyond_limit(p, dim_limit);
 }
 
-int rotation_z_axis(struct Piece *p){
+int rotation_z_axis(struct Piece *p, int dim_limit){
     for(int i = 0; i < p->nb_elementary_cube; ++i){
         int x_tmp = p->coords[3 * i];
         p->coords[3 * i] = - p->coords[3 * i + 1];
         p->coords[3 * i + 1] = x_tmp;
     }
-    return !is_piece_beyond_limit(p);
+    return !is_piece_beyond_limit(p, dim_limit);
 }
 
-void bring_piece_back(struct Piece *p){
+void bring_piece_back(struct Piece *p, int dim_limit){
     for(int i = 0; i < p->nb_elementary_cube; ++i){
         int x = p->coords[3 * i];
         int y = p->coords[3 * i + 1];
         int z = p->coords[3 * i + 2];
         if (x < 0)
             for (int ii = 0; ii < -x; ++ii)
-                shift_x_axis(p, 1);
-        if (x > DIM_LIMIT)
-            for (int ii = 0; ii < x - DIM_LIMIT - 1; ++ii)
-                shift_x_axis(p, -1);
+                shift_x_axis(p, 1, dim_limit);
+        if (x > dim_limit)
+            for (int ii = 0; ii < x - dim_limit - 1; ++ii)
+                shift_x_axis(p, -1, dim_limit);
 
         if (y < 0)
             for (int ii = 0; ii < -y; ++ii)
-                shift_y_axis(p, 1);
-        if (y > DIM_LIMIT)
-            for (int ii = 0; ii < y - DIM_LIMIT - 1; ++ii)
-                shift_y_axis(p, -1);
+                shift_y_axis(p, 1, dim_limit);
+        if (y > dim_limit)
+            for (int ii = 0; ii < y - dim_limit - 1; ++ii)
+                shift_y_axis(p, -1, dim_limit);
 
         if (z < 0)
             for (int ii = 0; ii < -z; ++ii)
-                shift_z_axis(p, 1);
-        if (z > DIM_LIMIT)
-            for (int ii = 0; ii < z - DIM_LIMIT - 1; ++ii)
-                shift_z_axis(p, -1);
+                shift_z_axis(p, 1, dim_limit);
+        if (z > dim_limit)
+            for (int ii = 0; ii < z - dim_limit - 1; ++ii)
+                shift_z_axis(p, -1, dim_limit);
     }
 }
 

@@ -11,30 +11,30 @@ struct Combinations * comb_init(struct Combinations *comb){
     return comb;
 }
 
-void shift(struct Piece *piece, int axis){
+void shift(struct Piece *piece, int axis, int dim_limit){
     switch (axis){
         case 0:
-            shift_x_axis(piece, 1);
-            if (is_piece_beyond_limit(piece)){
+            shift_x_axis(piece, 1, dim_limit);
+            if (is_piece_beyond_limit(piece, dim_limit)){
                 int min = get_piece_limit(piece, 0, "min");
                 for (int i = 0; i < min; ++i)
-                    shift_x_axis(piece, -1);
+                    shift_x_axis(piece, -1, dim_limit);
             }
             break;
         case 1:
-            shift_y_axis(piece, 1);
-            if (is_piece_beyond_limit(piece)){
+            shift_y_axis(piece, 1, dim_limit);
+            if (is_piece_beyond_limit(piece, dim_limit)){
                 int min = get_piece_limit(piece, 1, "min"); 
                 for (int i = 0; i < min; ++i)
-                    shift_y_axis(piece, -1);
+                    shift_y_axis(piece, -1, dim_limit);
             }
             break;
         case 2:
-            shift_z_axis(piece, 1);
-            if (is_piece_beyond_limit(piece)){
+            shift_z_axis(piece, 1, dim_limit);
+            if (is_piece_beyond_limit(piece, dim_limit)){
                 int min = get_piece_limit(piece, 2, "min");
                 for (int i = 0; i < min; ++i)
-                    shift_z_axis(piece, -1);
+                    shift_z_axis(piece, -1, dim_limit);
             }
             break;
         default:
@@ -42,21 +42,21 @@ void shift(struct Piece *piece, int axis){
     }
 }
 
-void rotate(struct Piece *piece, int axis){
+void rotate(struct Piece *piece, int axis, int dim_limit){
     switch (axis){
         case 0:
-            rotation_x_axis(piece);
+            rotation_x_axis(piece, dim_limit);
             break;
         case 1:
-            rotation_y_axis(piece);
+            rotation_y_axis(piece, dim_limit);
             break;
         case 2:
-            rotation_z_axis(piece);
+            rotation_z_axis(piece, dim_limit);
             break;
         default:
             break;
     }
-    bring_piece_back(piece);
+    bring_piece_back(piece, dim_limit);
 }
 
 struct Combinations * insert_new_piece(struct Piece * piece, struct Combinations *comb){
@@ -84,24 +84,24 @@ int place_available(struct Cube *cube, struct Piece *piece){
     return !is_place_occupied(cube, piece->coords, piece->nb_elementary_cube);
 }
 
-struct Combinations * find_all_rotated_combinations(struct Combinations * comb, struct Piece *piece){
+struct Combinations * find_all_rotated_combinations(struct Combinations * comb, struct Piece *piece, int dim_limit){
     if (!piece_exist(comb, piece))
         comb = insert_new_piece(piece, comb); 
 
     for (int x_rot = 0; x_rot < 4; x_rot++){
         for (int y_rot = 0; y_rot < 4; y_rot++){
             for (int z_rot = 0; z_rot < 4; z_rot++){
-                rotate(piece, 2);
+                rotate(piece, 2, dim_limit);
                 if (!piece_exist(comb, piece)){
                     comb = insert_new_piece(piece, comb);
                 } 
             }
-            rotate(piece, 1);
+            rotate(piece, 1, dim_limit);
             if (!piece_exist(comb, piece)){
                 comb = insert_new_piece(piece, comb);
             } 
         }
-        rotate(piece, 0);
+        rotate(piece, 0, dim_limit);
         if (!piece_exist(comb, piece)){
             comb = insert_new_piece(piece, comb);
         } 
@@ -109,35 +109,35 @@ struct Combinations * find_all_rotated_combinations(struct Combinations * comb, 
     return comb;
 }
 
-struct Combinations * find_all_shifted_combinations(struct Combinations * comb, struct Piece *piece){
+struct Combinations * find_all_shifted_combinations(struct Combinations * comb, struct Piece *piece, int dim_limit){
     if (!piece_exist(comb, piece))
         comb = insert_new_piece(piece, comb);   
     
     for (int x_tslt = 0; x_tslt < 4; ++x_tslt){
         for (int y_tslt = 0; y_tslt < 4; ++y_tslt){
             for (int z_tslt = 0; z_tslt < 4; ++z_tslt){
-                shift(piece, 2);
+                shift(piece, 2, dim_limit);
                 if (!piece_exist(comb, piece))
                     comb = insert_new_piece(piece, comb);
             }
-            shift(piece, 1);
+            shift(piece, 1, dim_limit);
             if (!piece_exist(comb, piece))
                 comb = insert_new_piece(piece, comb);  
         }
-        shift(piece, 0);
+        shift(piece, 0, dim_limit);
         if (!piece_exist(comb, piece))
             comb = insert_new_piece(piece, comb);  
     }
     return comb;
 }
 
-struct Combinations * find_all_combinations(struct Combinations *comb, struct Piece *piece){
+struct Combinations * find_all_combinations(struct Combinations *comb, struct Piece *piece, int dim_limit){
     struct Combinations * rot_comb; 
     rot_comb = comb_init(rot_comb);
-    rot_comb = find_all_rotated_combinations(rot_comb, piece);
+    rot_comb = find_all_rotated_combinations(rot_comb, piece, dim_limit);
 
     for (int rot = 0; rot < rot_comb->nb_combinations; ++rot)
-        comb = find_all_shifted_combinations(comb, rot_comb->piece_combinations[rot]);
+        comb = find_all_shifted_combinations(comb, rot_comb->piece_combinations[rot], dim_limit);
 
     return comb;
 }
@@ -195,7 +195,7 @@ struct Solution * find_solution(struct Piece ** input_pieces, int nb_pieces, int
     unsigned long long nb_iter = 0;
     for (int i = 0; i < nb_pieces; ++i){
         combs[i] = comb_init(combs[i]);
-        combs[i] = find_all_combinations(combs[i], input_pieces[i]);
+        combs[i] = find_all_combinations(combs[i], input_pieces[i], cube_size - 1);
         max_iter *= combs[i]->nb_combinations;
     }
     

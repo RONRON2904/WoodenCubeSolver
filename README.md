@@ -22,3 +22,9 @@ In the src/ directory:
 python cube_visu.py: shows step by step how to reproduce the solution (by closing the matplotlib figure at each step).  
 
 outputs_img shows the step by step solution given by the python script
+
+#### NOTES: 
+This code will work on 99%+ any real wooden cube we can find.
+BUT:
+* This code is actually limited by the number of combinations by unsigned long long int limit: 18,446,744,073,709,551,615
+* In case of a wooden cube with lot more pieces (~=lot more combinations) it could end up with errors.

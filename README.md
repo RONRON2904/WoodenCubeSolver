@@ -1,3 +1,5 @@
+![Image description](wooden_cube.JPG)
+
 # WoodenCubeSolver
 This code gives a solution to any wooden cube puzzle. 
 At the end a graphic interface helps to reproduce the solution on the true wooden cube puzzle.  

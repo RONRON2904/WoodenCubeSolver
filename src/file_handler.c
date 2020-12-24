@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
 
 #include "../headers/file_handler.h"
 
@@ -19,6 +20,25 @@ int parse_nb_piece(char * input_filepath){
     assert(fseek(fptr, 0, SEEK_SET) == 0);
     fclose(fptr);
     return nb_piece;
+}
+
+int parse_cube_size(char * input_filepath){
+    FILE *fptr;
+
+    if ((fptr = fopen(input_filepath, "r")) == NULL){
+        printf("Error! opening file");
+        exit(1);         
+    }
+    assert(fseek(fptr, 0, SEEK_SET) == 0);
+    int max_coord = 0;
+    for (int c = getc(fptr); c != EOF; c = getc(fptr)){
+        if (c != '\n' && !isspace(c))
+            if ((int) c - 48 > max_coord)
+                max_coord = (int) c - 48;
+    }
+    assert(fseek(fptr, 0, SEEK_SET) == 0);
+    fclose(fptr);
+    return max_coord + 1;
 }
 
 struct Piece * parse_piece(FILE * input_file, int piece_line){
@@ -73,15 +93,15 @@ struct Piece ** read_pieces(char * filepath){
     return input_pieces;
 }
 
-void write_solution(char * filepath, int * p_ids){
+void write_solution(char * filepath, int * p_ids, int cube_size){
     FILE *f = fopen(filepath, "w");
     assert(f != NULL);
 
     assert(fprintf(f, "x y z p_id\n") > 0);
     int piece = 0;
-    for (int x = 0; x < 4; ++x)
-        for (int y = 0; y < 4; ++y)
-            for (int z = 0; z < 4; ++z){
+    for (int x = 0; x < cube_size; ++x)
+        for (int y = 0; y < cube_size; ++y)
+            for (int z = 0; z < cube_size; ++z){
                 assert(fprintf(f, "%d %d %d %d\n", x, y, z, p_ids[piece]) > 0);
                 piece++;
             }
